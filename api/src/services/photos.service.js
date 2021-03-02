@@ -1,27 +1,26 @@
-const fs = require('fs');
-const path = require('path');
+const { getDropboxImages, getDropboxImage } = require('./dropbox.service');
+const Cacheable = require('../framework/cache/cache');
+const { DROPBOX_CACHE_KEY } = require('../constants');
 
-const imagesFolder = path.join(__dirname, '..', '..', 'images');
-const miniaturesFolder = path.join(imagesFolder, 'miniatures');
+const createImagePath = imageName => `Grandes/${imageName}`;
+const miniaturesFolder = 'Chicas/';
+const mainImageName = 'mosaico.jpg';
 
-const assetsPath = 'http://localhost:8080/assets/';
-const miniaturesPath = assetsPath + 'miniatures/';
-const photosPath = assetsPath + 'pictures/';
+const findMiniatures = async () => await getDropboxImages(miniaturesFolder);
 
-const createPhoto = (name) => ({
-    miniaturePath: `${miniaturesPath}${name}`,
-    path: `${photosPath}${name}`,
-})
+const findMainImage = async () => await getDropboxImage(mainImageName);
 
-const findPaths = () => fs
-    .readdirSync(miniaturesFolder)
-    .map(createPhoto)
+const findImage = async imageName => await getDropboxImage(createImagePath(imageName));
 
-const findMainImagePath = () => assetsPath + fs
-    .readdirSync(imagesFolder)
-    .find(path => /^.*\.JPG$/.test(path))
+const updateCache = async () => {
+    Cacheable.clearBucket(DROPBOX_CACHE_KEY);
+    await findMiniatures();
+    await findMainImage();
+}
 
 module.exports = {
-    findPaths,
-    findMainImagePath,
+    findMiniatures,
+    findMainImage,
+    findImage,
+    updateCache,
 }

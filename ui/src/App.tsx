@@ -1,4 +1,5 @@
 import React from 'react';
+import './axiosConfig';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
 import { routes } from './App.routes';
 

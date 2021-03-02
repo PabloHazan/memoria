@@ -11,15 +11,15 @@ interface CollageProps {
 
 const Collage = ({ images, backgroundImagePath, showImage }: CollageProps) => <>
     <GridBackgroundImage
-        imagePath={backgroundImagePath}
+        url={backgroundImagePath}
         container
         direction='row'
         justify='flex-start'
         alignItems='center'
         wrap='wrap'
     >
-        {images?.map(({ miniaturePath, path }) =>
-            <Img src={miniaturePath} width="20%" onClick={() => showImage(path)} />
+        {images?.map(({ name, url }) =>
+            <Img src={url} width="5%" onClick={() => showImage(name)} />
         )}
     </GridBackgroundImage>
 </>

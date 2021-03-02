@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 import Collage from './modules/photos/pages/collage/ColalgeContainer';
-import Photo from './modules/photos/pages/photo/Photo';
+import Photo from './modules/photos/pages/photo/PhotoContainer';
 
 interface RouteDefinition {
     path: string;
@@ -9,7 +9,7 @@ interface RouteDefinition {
 }
 
 export const COLLAGE_PATH: string = '/collage';
-export const PHOTO_PATH = (path: string = ':path') => `/photo/${path}`;
+export const PHOTO_PATH = (path: string = ':name') => `/photo/${path}`;
 
 const DefualtComponent = (props: any) => <Redirect to={COLLAGE_PATH} />
 

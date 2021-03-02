@@ -11,7 +11,7 @@ export const useFindImages = (): PhotoResponse | null => {
     const [images, setImages] = useState<PhotoResponse | null>(null);
     useEffect(() => {
         axios
-            .get<PhotoResponse>('http://192.168.0.8:8080/photos')
+            .get<PhotoResponse>('photos')
             .then(({ data }) => setImages(data));
     }, [])
     return images;

@@ -1,19 +1,15 @@
-import React, { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import React from 'react';
+import { Image } from '../../model/image';
 
 interface PhotoProps {
-}
-
-interface PhotoParams {
-    path: string
+    image: Image
 }
 
 
-const Photo = ({ }: PhotoProps) => {
-    const { path } = useParams<PhotoParams>();
-    const realPath = useMemo(() => atob(path), [path])
+
+const Photo = ({ image }: PhotoProps) => {
     return <>
-        <img width="100%" src={realPath} />
+       {image?.url && <img width="100%" src={image.url} />}
     </>
 }
 

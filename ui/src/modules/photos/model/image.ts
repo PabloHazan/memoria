@@ -1,4 +1,4 @@
 export interface Image {
-    miniaturePath: string;
-    path: string;
+    name: string;
+    url: string;
 }
