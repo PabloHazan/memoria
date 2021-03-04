@@ -10,9 +10,9 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use('/photos', photosRouter);
+app.use('/api/photos', photosRouter);
 
-app.use('/assets', express.static(path.join(__dirname, '..', 'images')))
+app.use('/**', express.static(path.join(__dirname, '..', 'images')))
 
 app.use((req, res, next) => {
     const error = new Error('Ruta inexistente');

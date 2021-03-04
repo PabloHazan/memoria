@@ -30,6 +30,7 @@ const clearBucket = bucketName => {
 }
 
 module.exports = Cacheable;
+module.exports.cache = cache;
 module.exports.SECOND = SECOND;
 module.exports.MINUTE = MINUTE;
 module.exports.HOUR = HOUR;

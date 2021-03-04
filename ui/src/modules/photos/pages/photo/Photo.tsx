@@ -9,7 +9,7 @@ interface PhotoProps {
 
 const Photo = ({ image }: PhotoProps) => {
     return <>
-       {image?.url && <img width="100%" src={image.url} />}
+       {image?.url && <img src={image.url} />}
     </>
 }
 

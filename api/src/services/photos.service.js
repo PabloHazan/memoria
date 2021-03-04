@@ -1,4 +1,4 @@
-const { getDropboxImages, getDropboxImage } = require('./dropbox.service');
+const { getDropboxImages, getDropboxImage, clearDropboxUrls } = require('./dropbox.service');
 const Cacheable = require('../framework/cache/cache');
 const { DROPBOX_CACHE_KEY } = require('../constants');
 
@@ -13,6 +13,7 @@ const findMainImage = async () => await getDropboxImage(mainImageName);
 const findImage = async imageName => await getDropboxImage(createImagePath(imageName));
 
 const updateCache = async () => {
+    // await clearDropboxUrls(miniaturesFolder);
     Cacheable.clearBucket(DROPBOX_CACHE_KEY);
     await findMiniatures();
     await findMainImage();
