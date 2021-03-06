@@ -15,11 +15,9 @@ const createPath = (path = '') => [ '/Pablo2', path ].join('/');
 const getUrlFromPath = async path => {
     try {
         const { result: { url } } = await dbx.sharingCreateSharedLink({ path });
-        console.log (path, url)
         return url + '&raw=1';
     } catch (error) {
         console.log ('Error al buscar la url para', path);
-        console.info(error)
         return '';
     }
 }
@@ -47,15 +45,7 @@ const mapWithChunks = async (list, maxSize, map) => {
     }
     const flatResults = results.flat();
     console.log('-------------------------------');
-    console.log('-------------------------------');
-    console.log('-------------------------------');
-    console.log('-------------------------------');
-    console.log('-------------------------------');
     console.log(flatResults.length)
-    console.log('-------------------------------');
-    console.log('-------------------------------');
-    console.log('-------------------------------');
-    console.log('-------------------------------');
     console.log('-------------------------------');
     return flatResults
 }
@@ -69,22 +59,27 @@ const getFiles = async path => {
 
 const getImages = async (path = '') => {
     const entries = await getFiles(path);
-    console.log(entries);
     return await mapWithChunks(entries, 50, createImageFromFile);
-    // return await Promise.all(entries.map(createImageFromFile))
 }
 
 const getImage = path => getUrlFromPath(createPath(path))
 
 const clearUrls = async path => {
     try {
-        console.log('-------------->', createPath(path))
         const { result: { links } } = await dbx.sharingGetSharedLinks({ path: ''});
         await Promise.all(links.map(async ({url}) => await dbx.sharingRevokeSharedLink({url})))
     } catch (error) {
-        console.log(JSON.stringify(error,null, 4))
     }
 }
+
+const readFile = async name => {
+    const config = await dbx.filesDownload({
+        path: name
+    })
+    console.log('cofig:', String(config.result.fileBinary))
+}
+
+readFile('/config.json').catch(err => console.log(JSON.stringify(err, null, 2)))
 
 module.exports = {
     getDropboxImages: CacheDropbox(getImages),

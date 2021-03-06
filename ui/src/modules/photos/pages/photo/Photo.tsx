@@ -5,8 +5,6 @@ interface PhotoProps {
     image: Image
 }
 
-
-
 const Photo = ({ image }: PhotoProps) => {
     return <>
        {image?.url && <img src={image.url} />}
