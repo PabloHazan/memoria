@@ -1,0 +1,17 @@
+{
+  "name": "memoria-2021",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index",
+    "install": "cd api && npm i"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://pablohazan@bitbucket.org/pablohazan/memoria-2021.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/pablohazan/memoria-2021#readme"
+}

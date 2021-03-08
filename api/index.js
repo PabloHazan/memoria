@@ -1,7 +1,7 @@
 const app = require('./src/app');
 const { updateCache } = require('./src/services/photos.service');
 
-const port = process.env.port || 8080;
+const port = process.env.PORT || 8080;
 
 updateCache()
     .then(() => {
