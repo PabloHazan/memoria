@@ -2,23 +2,23 @@ const { Dropbox } = require('dropbox');
 const fetch = require('node-fetch');
 const Cacheable = require('../framework/cache/cache');
 const { DROPBOX_CACHE_KEY } = require('../constants');
-const CacheDropbox = Cacheable(DROPBOX_CACHE_KEY, {ttl: Cacheable.INFINITY})
+const CacheDropbox = Cacheable(DROPBOX_CACHE_KEY, { ttl: Cacheable.INFINITY })
 
 const accessToken = 'y6dNTYPYn0sAAAAAAAAAAQ8fSh2dhOzZB_znE8x-aRumBVs2Aoe1UVpLgZYT6reQ';
 const dbx = new Dropbox({
-  accessToken,
-  fetch
+    accessToken,
+    fetch
 });
 
-const createPath = (path = '') => [ '/Pablo2', path ].join('/');
+const createPath = (path = '') => ['/Pablo2', path].join('/');
 
 const getUrlFromPath = async path => {
     try {
         const { result: { url } } = await dbx.sharingCreateSharedLink({ path });
         return url + '&raw=1';
     } catch (error) {
-        console.log ('Error al buscar la url para', path);
-        return '';
+        console.log('Error al buscar la url para', path);
+        return null;
     }
 }
 
@@ -45,7 +45,7 @@ const mapWithChunks = async (list, maxSize, map) => {
     }
     const flatResults = results.flat();
     console.log('-------------------------------');
-    console.log(flatResults.length)
+    console.log(flatResults.filter(a => a).length)
     console.log('-------------------------------');
     return flatResults
 }
@@ -66,8 +66,8 @@ const getImage = path => getUrlFromPath(createPath(path))
 
 const clearUrls = async path => {
     try {
-        const { result: { links } } = await dbx.sharingGetSharedLinks({ path: ''});
-        await Promise.all(links.map(async ({url}) => await dbx.sharingRevokeSharedLink({url})))
+        const { result: { links } } = await dbx.sharingGetSharedLinks({ path: '' });
+        await Promise.all(links.map(async ({ url }) => await dbx.sharingRevokeSharedLink({ url })))
     } catch (error) {
     }
 }

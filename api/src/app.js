@@ -12,7 +12,10 @@ app.use(bodyParser.json());
 
 app.use('/api/photos', photosRouter);
 
-app.use('/**', express.static(path.join(__dirname, '..', 'images')))
+app.use(express.static(path.join(__dirname, '..', 'images')));
+app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, '..', 'images', 'index.html'));
+})
 
 app.use((req, res, next) => {
     const error = new Error('Ruta inexistente');
