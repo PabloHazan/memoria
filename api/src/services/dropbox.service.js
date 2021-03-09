@@ -60,7 +60,7 @@ const getFiles = async path => {
 
 const getImages = async (path = '') => {
     const entries = await getFiles(path);
-    return await mapWithChunks(entries, 50, createImageFromFile);
+    return (await mapWithChunks(entries, 50, createImageFromFile)).sort((a, b) => a.name <= b.name ? -1 : 1);
 }
 
 const getImage = path => getUrlFromPath(createPath(path))

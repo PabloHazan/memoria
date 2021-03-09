@@ -21,12 +21,14 @@ const updateCache = async () => {
     await findMiniatures();
     await findMainImage();
     console.log(JSON.stringify(getDropboxConfig(), getDropboxConfig()));
-
 }
+
+const findImagesByRow = () => getDropboxConfig().columnas
 
 module.exports = {
     findMiniatures,
     findMainImage,
     findImage,
     updateCache,
+    findImagesByRow,
 }

@@ -1,16 +1,19 @@
-const { 
+const {
     findMiniatures,
     findMainImage,
     findImage,
     updateCache,
+    findImagesByRow,
 } = require("../services/photos.service")
 
 const getPhotos = async (req, res) => {
     const images = await findMiniatures();
     backgroundImage = await findMainImage();
+    const imagesByRow = await findImagesByRow();
     res.send({
         images,
-        backgroundImage
+        backgroundImage,
+        imagesByRow,
     })
 }
 
@@ -25,7 +28,7 @@ const getPhoto = async (req, res) => {
 
 const reload = async (req, res) => {
     await updateCache();
-    res.send({status: 'reloaded'})
+    res.send({ status: 'reloaded' })
 }
 
 module.exports = {

@@ -6,10 +6,11 @@ interface CollageProps {
     images: Array<Image> | null;
     backgroundImagePath: string | null;
     showImage: (path: string) => void;
+    imagesByRow: number;
 }
 
 
-const Collage = ({ images, backgroundImagePath, showImage }: CollageProps) => <>
+const Collage = ({ images, backgroundImagePath, showImage, imagesByRow }: CollageProps) => <>
     <GridBackgroundImage
         url={backgroundImagePath}
         container
@@ -19,7 +20,7 @@ const Collage = ({ images, backgroundImagePath, showImage }: CollageProps) => <>
         wrap='wrap'
     >
         {images?.map(({ name, url }) =>
-            <Img src={url} width="5%" onClick={() => showImage(name)} />
+            <Img src={url} width={`${100 / imagesByRow}%`} onClick={() => showImage(name)} />
         )}
     </GridBackgroundImage>
 </>

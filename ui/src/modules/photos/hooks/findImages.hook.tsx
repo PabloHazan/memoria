@@ -5,6 +5,7 @@ import { Image } from "../model/image";
 interface PhotoResponse {
     images: Array<Image>;
     backgroundImage: string;
+    imagesByRow: number;
 }
 
 export const useFindImages = (): PhotoResponse | null => {
