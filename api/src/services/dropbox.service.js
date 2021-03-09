@@ -1,7 +1,7 @@
 const { Dropbox } = require('dropbox');
 const fetch = require('node-fetch');
 const Cacheable = require('../framework/cache/cache');
-const { DROPBOX_CACHE_KEY } = require('../constants');
+const { DROPBOX_CACHE_KEY, DROPBOX_CONFIG_FILE } = require('../constants');
 const CacheDropbox = Cacheable(DROPBOX_CACHE_KEY, { ttl: Cacheable.INFINITY })
 
 const accessToken = 'y6dNTYPYn0sAAAAAAAAAAQ8fSh2dhOzZB_znE8x-aRumBVs2Aoe1UVpLgZYT6reQ';
@@ -10,7 +10,11 @@ const dbx = new Dropbox({
     fetch
 });
 
-const createPath = (path = '') => ['/Pablo2', path].join('/');
+let _config = null;
+const getConfig = () => _config;
+const setConfig = conf => _config = conf;
+
+const createPath = (path = '') => [getConfig().base, path].join('/');
 
 const getUrlFromPath = async path => {
     try {
@@ -44,9 +48,6 @@ const mapWithChunks = async (list, maxSize, map) => {
         results.push(result);
     }
     const flatResults = results.flat();
-    console.log('-------------------------------');
-    console.log(flatResults.filter(a => a).length)
-    console.log('-------------------------------');
     return flatResults
 }
 
@@ -64,25 +65,27 @@ const getImages = async (path = '') => {
 
 const getImage = path => getUrlFromPath(createPath(path))
 
-const clearUrls = async path => {
-    try {
-        const { result: { links } } = await dbx.sharingGetSharedLinks({ path: '' });
-        await Promise.all(links.map(async ({ url }) => await dbx.sharingRevokeSharedLink({ url })))
-    } catch (error) {
-    }
-}
-
 const readFile = async name => {
     const config = await dbx.filesDownload({
         path: name
     })
-    console.log('cofig:', String(config.result.fileBinary))
+    return JSON.parse(new String(config.result.fileBinary));
 }
 
-readFile('/config.json').catch(err => console.log(JSON.stringify(err, null, 2)))
+const reloadConfig = async () => {
+    try {
+        setConfig(await readFile(DROPBOX_CONFIG_FILE));
+    } catch (error) {
+        console.error('Error: no pudo leerse el archivo de configuracion de dropbox', error);
+        console.error(error);
+        throw new Error('Config dropbox error');
+    }
+}
+
 
 module.exports = {
     getDropboxImages: CacheDropbox(getImages),
     getDropboxImage: CacheDropbox(getImage),
-    clearDropboxUrls: clearUrls,
+    reloadDropboxConfig: reloadConfig,
+    getDropboxConfig: getConfig,
 }
