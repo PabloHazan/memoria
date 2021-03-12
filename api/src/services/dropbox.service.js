@@ -63,7 +63,7 @@ const getImages = async (path = '') => {
     return (await mapWithChunks(entries, 50, createImageFromFile)).sort((a, b) => a.name <= b.name ? -1 : 1);
 }
 
-const getImage = path => getUrlFromPath(createPath(path))
+const getImage = (path, src) => getUrlFromPath(createPath(path))
 
 const readFile = async name => {
     const config = await dbx.filesDownload({

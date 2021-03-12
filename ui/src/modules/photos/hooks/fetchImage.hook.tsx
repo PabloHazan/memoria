@@ -4,11 +4,11 @@ import { Image } from "../model/image";
 
 interface PhotoResponse extends Image { }
 
-export const useFetchImage = (name: string): PhotoResponse | null => {
+export const useFetchImage = (name: string, src: string): PhotoResponse | null => {
     const [image, setImage] = useState<PhotoResponse | null>(null);
     useEffect(() => {
         axios
-            .get<PhotoResponse>(`photos/${name}`)
+            .get<PhotoResponse>(`photos/${name}?src=${src}`)
             .then(({ data }) => setImage(data));
     }, [])
     return image;

@@ -9,7 +9,7 @@ interface RouteDefinition {
 }
 
 export const COLLAGE_PATH: string = '/collage';
-export const PHOTO_PATH = (path: string = ':name') => `/photo/${path}`;
+export const PHOTO_PATH = (src: string = ':src', path: string = ':name') => `/photo/${src}/${path}`;
 
 const DefualtComponent = (props: any) => <Redirect to={COLLAGE_PATH} />
 

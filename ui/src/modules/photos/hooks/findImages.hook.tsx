@@ -4,6 +4,7 @@ import { Image } from "../model/image";
 
 interface PhotoResponse {
     images: Array<Image>;
+    round: Array<Image>;
     backgroundImage: string;
     imagesByRow: number;
 }

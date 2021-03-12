@@ -12,9 +12,9 @@ app.use(bodyParser.json());
 
 app.use('/api/photos', photosRouter);
 
-app.use(express.static(path.join(__dirname, '..', 'images')));
+app.use(express.static(path.join(__dirname, '..', 'ui')));
 app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, '..', 'images', 'index.html'));
+    res.sendFile(path.resolve(__dirname, '..', 'ui', 'index.html'));
 })
 
 app.use((req, res, next) => {

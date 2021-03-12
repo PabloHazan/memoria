@@ -7,6 +7,7 @@ export const GridBackgroundImage = styled(Grid)`
     background-repeat: no-repeat;
     background-size: 100%;
     width: 100%;
+    overflow: hidden;
 `;
 
 export const Img = styled.img`
@@ -19,5 +20,21 @@ export const Img = styled.img`
         /* border-style: solid;
         border-width: 5px;
         border-color: white; */
+    }
+`
+
+export const Round = styled(Grid)`
+    overflow-x: auto;
+    overflow-y: hidden;
+`
+
+export const ImgRound = styled.img`
+    transition: transform 0.2s;
+    width: 100%;
+    max-width: 15vh;
+    height: auto;
+    &:hover {
+        transform: scale(1.5);
+        z-index: 2;
     }
 `
