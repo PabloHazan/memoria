@@ -23,6 +23,22 @@ export const Img = styled.img`
     }
 `
 
+export const Section = styled.section`
+    margin: 0 20px 1.6em;
+    padding: 1.6em;
+    background: #eeece8;
+    font-size: 18px;
+    line-height: 1.4;
+    color: #A7CCD6;
+    font-family: "Archivo Narrow","Helvetica Neue",Helvetica,Arial,sans-serif;
+`
+
+export const H2 = styled.h2`
+    font-size: 24px;
+    margin: 0 0 .8em;
+    line-height: 1.1;
+`
+
 export const Round = styled(Grid)`
     overflow-x: auto;
     overflow-y: hidden;
