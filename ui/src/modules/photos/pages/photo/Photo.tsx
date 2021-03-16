@@ -1,14 +1,29 @@
-import React from 'react';
+import { Grid } from '@material-ui/core';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { Image } from '../../model/image';
+
+const Img = styled.img`
+    max-width: 100vh;
+    max-height: 80vh;
+    height: auto;
+    width: auto;
+`
+
+const P = styled.p`
+    font-size: 18px;
+    line-height: 1.4;
+    color: #d7b221;
+    font-family: "Archivo Narrow","Helvetica Neue",Helvetica,Arial,sans-serif;
+`;
 
 interface PhotoProps {
     image: Image
 }
 
-const Photo = ({ image }: PhotoProps) => {
-    return <>
-       {image?.url && <img src={image.url} />}
-    </>
-}
+const Photo = ({ image }: PhotoProps) => <>
+    <P>{image?.name.match(/^[0-9]+-(.*)\.jpg$/)?.[1] ?? ''}</P>
+    {image?.url && <Img src={image.url} />}
+</>
 
 export default Photo;

@@ -17,46 +17,58 @@ interface CollageProps {
 const Collage = ({ images, backgroundImagePath, showImage, imagesByRow, roundImages }: CollageProps) => <>
     <Grid
         container
+        direction='column'
+        spacing={3}
     >
-        <Grid item xs={12} sm={8}>
-            <GridBackgroundImage
-                url={backgroundImagePath}
+        <Grid
+            item
+            container
+            wrap='wrap'
+            alignContent='space-between'
+            spacing={3}
+        >
+            <Grid item xs={12} sm={8}>
+                <GridBackgroundImage
+                    url={backgroundImagePath}
+                    container
+                    direction='row'
+                    justify='flex-start'
+                    alignItems='center'
+                    wrap='wrap'
+                    item
+                >
+                    {images?.map(({ name, url }) =>
+                        <Img key={name} src={url} width={`${100 / imagesByRow}%`} onClick={() => showImage(ImageSrc.COLLAGE_SRC, name)} />
+                    )}
+                </GridBackgroundImage>
+            </Grid>
+            <Grid item xs>
+                <Section>
+                    <H2>ACTIVIDAD 2021</H2>
+                    <div><p>
+                        Compartimos el Collage del Pañuelo. Este año nuestro Homenaje a la Memoria es desde casa. Las fotos que lo integran fueron enviadas a nuestro contacto. Es nuestro homenaje a ellas y a sus hijos. A ellas que, como dijera Galeano, se negaron a olvidar aún en tiempos de amnesia obligatoria. Si los delitos de lesa humanidad no prescriben, la resistencia tampoco.
+                </p></div>
+                </Section>
+            </Grid>
+        </Grid>
+        <Grid item>
+            <Round
+                item
                 container
                 direction='row'
                 justify='flex-start'
-                alignItems='center'
-                wrap='wrap'
-                item
+                alignContent='center'
+                wrap='nowrap'
             >
-                {images?.map(({ name, url }) =>
-                    <Img key={name} src={url} width={`${100 / imagesByRow}%`} onClick={() => showImage(ImageSrc.COLLAGE_SRC, name)} />
+                {roundImages?.map(({ name, url }) =>
+                    <ImgRound src={url}
+                        key={name}
+                        onClick={() => showImage(ImageSrc.ROUND_SRC, name)}
+                    />
                 )}
-            </GridBackgroundImage>
-        </Grid>
-        <Grid item xs>
-            <Section>
-                <H2>ACTIVIDAD 2021</H2>
-                <div><p>
-                    Compartimos el Collage del Pañuelo. Este año nuestro Homenaje a la Memoria es desde casa. Las fotos que lo integran fueron enviadas a nuestro contacto. Es nuestro homenaje a ellas y a sus hijos. A ellas que, como dijera Galeano, se negaron a olvidar aún en tiempos de amnesia obligatoria. Si los delitos de lesa humanidad no prescriben, la resistencia tampoco.
-                </p></div>
-            </Section>
+            </Round>
         </Grid>
     </Grid>
-    <Round
-        item
-        container
-        direction='row'
-        justify='flex-start'
-        alignContent='center'
-        wrap='nowrap'
-    >
-        {roundImages?.map(({ name, url }) =>
-            <ImgRound src={url}
-                key={name}
-                onClick={() => showImage(ImageSrc.ROUND_SRC, name)}
-            />
-        )}
-    </Round>
 </>
 
 export default Collage;

@@ -42,6 +42,22 @@ export const H2 = styled.h2`
 export const Round = styled(Grid)`
     overflow-x: auto;
     overflow-y: hidden;
+    &&::-webkit-scrollbar-track {
+        border: 1px solid #A7CCD6;
+        padding: 2px 0;
+        background-color: #e3eef1;
+    }
+
+    &&::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    &&::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        background-color: #A7CCD6;
+        border: 1px solid #d7b221;
+    }
 `
 
 export const ImgRound = styled.img`

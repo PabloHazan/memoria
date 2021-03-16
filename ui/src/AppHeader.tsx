@@ -1,6 +1,8 @@
+import React, { useCallback, useMemo } from 'react';
 import { Grid } from '@material-ui/core';
-import React from 'react';
+import { useHistory, useLocation } from 'react-router';
 import styled from 'styled-components';
+import { COLLAGE_PATH } from './App.routes';
 
 const Div = styled.div`
     width: 100%;
@@ -14,21 +16,38 @@ const A = styled.a`
     display: block;
     font-weight: 700;
     text-decoration: none;
+    cursor: pointer;
 `
 
 interface AppHeaderProps {
 
 }
 
-const AppHeader = ({ }: AppHeaderProps) => <Div>
-    <Grid
-        container
-        justify='space-between'
-        alignItems='center'>
-        <img src='https://homenajealamemoria.files.wordpress.com/2021/03/isologos_180.png' />
-        <A href="https://homenajealamemoria.wordpress.com/">Volver
-        </A>
-    </Grid>
-</Div>
+const AppHeader = ({ }: AppHeaderProps) => {
+    const location = useLocation();
+    const history = useHistory();
+    const url = useMemo(() => location.pathname === COLLAGE_PATH ? "https://homenajealamemoria.wordpress.com/" : undefined, [location.pathname]);
+
+    const goBack = useCallback(() => {
+        if (!url) history.goBack();
+    }, [url, history]);
+
+    return <>
+        <Div>
+            <Grid
+                container
+                justify='space-between'
+                alignItems='center'>
+                <img src='https://homenajealamemoria.files.wordpress.com/2021/03/isologos_180.png' />
+                <A
+                    href={url}
+                    onClick={goBack}
+                >
+                    Volver
+                </A>
+            </Grid>
+        </Div >
+    </>
+}
 
 export default AppHeader;
