@@ -1,7 +1,7 @@
 const { Dropbox } = require('dropbox');
 const fetch = require('node-fetch');
 const Cacheable = require('../framework/cache/cache');
-const { DROPBOX_CACHE_KEY, DROPBOX_CONFIG_FILE } = require('../constants');
+const { DROPBOX_CACHE_KEY, DROPBOX_CONFIG_FILE, DROPBOX_FILE_BASE_URL } = require('../constants');
 const CacheDropbox = Cacheable(DROPBOX_CACHE_KEY, { ttl: Cacheable.INFINITY })
 
 const accessToken = 'y6dNTYPYn0sAAAAAAAAAAQ8fSh2dhOzZB_znE8x-aRumBVs2Aoe1UVpLgZYT6reQ';
@@ -16,15 +16,21 @@ const setConfig = conf => _config = conf;
 
 const createPath = (path = '') => [getConfig().base, path].join('/');
 
-const getUrlFromPath = async path => {
+
+const processUrl = url => url.slice(0, DROPBOX_FILE_BASE_URL.length) + 'raw/' + url.slice(DROPBOX_FILE_BASE_URL.length)
+
+const getUrlFromPath = CacheDropbox(async path => {
     try {
         const { result: { url } } = await dbx.sharingCreateSharedLink({ path });
-        return url + '&raw=1';
+        const finalUrl = processUrl(url);
+        console.log('path', path, 'url', finalUrl);
+        // return url + '&raw=1';
+        return finalUrl;
     } catch (error) {
         console.log('Error al buscar la url para', path);
         return null;
     }
-}
+})
 
 const createImageFromFile = async file => ({
     name: file.name,
@@ -82,11 +88,9 @@ const reloadConfig = async () => {
     }
 }
 
-
-
 module.exports = {
-    getDropboxImages: CacheDropbox(getImages),
-    getDropboxFile: CacheDropbox(getImage),
+    getDropboxImages: getImages,
+    getDropboxFile: getImage,
     reloadDropboxConfig: reloadConfig,
     getDropboxConfig: getConfig,
 }

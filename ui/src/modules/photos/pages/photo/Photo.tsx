@@ -6,7 +6,7 @@ import { Image } from '../../model/image';
 
 const Img = styled.img`
     max-width: 100vh;
-    max-height: 80vh;
+    max-height: 75vh;
     height: auto;
     width: auto;
 `
@@ -25,8 +25,14 @@ interface PhotoProps {
 const Photo = ({ image }: PhotoProps) => {
     useAudio(image?.sound);
     return <>
-        <P>{image?.name.match(/^[0-9]+-(.*)\.jpg$/)?.[1] ?? ''}</P>
-        {image?.url && <Img src={image.url} />}
+        <Grid
+            container
+            direction='column'
+            alignItems='center'
+        >
+            <P>{image?.name.match(/^[0-9]+-(.*)\.jpg$/)?.[1] ?? ''}</P>
+            {image?.url && <Img src={image.url} />}
+        </Grid>
     </>
 }
 export default Photo;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
-import Collage from './modules/photos/pages/collage/ColalgeContainer';
+import Collage from './modules/photos/pages/collage/CollageContainer';
 import Photo from './modules/photos/pages/photo/PhotoContainer';
 
 interface RouteDefinition {

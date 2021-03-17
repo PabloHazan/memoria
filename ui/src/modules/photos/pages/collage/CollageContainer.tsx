@@ -10,7 +10,9 @@ const CollageContainer = (props: any) => {
     const findImages = useFindImages();
 
     const history = useHistory();
-    const showImage = useCallback((src: ImageSrc, path: string) => history.push(PHOTO_PATH(src, btoa(path))), []);
+    const showImage = useCallback((src: ImageSrc, path: string) => {
+        history.push(PHOTO_PATH(src, btoa(path)))
+    }, []);
     return <Collage
         {...props}
         images={findImages?.images}

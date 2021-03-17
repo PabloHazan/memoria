@@ -29,6 +29,16 @@ const createSoundPath = (soudName, src) => {
     return `${basePath}/${soudName}`;
 }
 
+const loadImages = async src => {
+    validateSrc(src);
+    const images = await getDropboxImages(getDropboxConfig()[src].maxi);
+    const soundPath = getDropboxConfig()[src].audio;
+    await Promise.all(images.map(image => getDropboxFile(soundPath + '/' + image.name.replace('.jpg', '.mp3'))));
+}
+
+const loadCollageImages = async () => await loadImages(COLLAGE_SRC);
+const loadRoundImages = async () => await loadImages(ROUND_SRC);
+
 const findMiniatures = async src => {
     validateSrc(src);
     return getDropboxImages(getDropboxConfig()[src].mini);
@@ -47,6 +57,9 @@ const updateCache = async () => {
     await findCollageMiniatures();
     await findMainImage();
     await findRoundMiniatures();
+    await loadCollageImages();
+    await loadRoundImages();
+    await findMainSound()
     console.log(JSON.stringify(getDropboxConfig(), null, 2));
 }
 
