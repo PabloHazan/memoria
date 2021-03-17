@@ -1,6 +1,6 @@
 const {
     getDropboxImages,
-    getDropboxImage,
+    getDropboxFile,
     reloadDropboxConfig,
     getDropboxConfig
 } = require('./dropbox.service');
@@ -23,6 +23,12 @@ const createImagePath = (imageName, src) => {
     return `${basePath}/${imageName}`;
 }
 
+const createSoundPath = (soudName, src) => {
+    validateSrc(src);
+    const basePath = getDropboxConfig()[src].audio;
+    return `${basePath}/${soudName}`;
+}
+
 const findMiniatures = async src => {
     validateSrc(src);
     return getDropboxImages(getDropboxConfig()[src].mini);
@@ -31,9 +37,9 @@ const findMiniatures = async src => {
 const findCollageMiniatures = async () => await findMiniatures(COLLAGE_SRC);
 const findRoundMiniatures = async () => await findMiniatures(ROUND_SRC);
 
-const findMainImage = async () => await getDropboxImage(getDropboxConfig().fondo);
+const findMainImage = async () => await getDropboxFile(getDropboxConfig().fondo);
 
-const findImage = async (imageName, src) => await getDropboxImage(createImagePath(imageName, src));
+const findImage = async (imageName, src) => await getDropboxFile(createImagePath(imageName, src));
 
 const updateCache = async () => {
     Cacheable.clearBucket(DROPBOX_CACHE_KEY);
@@ -41,17 +47,29 @@ const updateCache = async () => {
     await findCollageMiniatures();
     await findMainImage();
     await findRoundMiniatures();
-    console.log(JSON.stringify(getDropboxConfig(), getDropboxConfig()));
+    console.log(JSON.stringify(getDropboxConfig(), null, 2));
 }
 
 const findImagesByRow = () => getDropboxConfig().columnas;
 
+const findMainSound = () => getDropboxFile(getDropboxConfig().audio);
+
+const findSoundByImageName = async (imageName, src) => {
+    try {
+        const songName = await getDropboxFile(createSoundPath(imageName.match(/^(.*)\.jpg$/)[1] + '.mp3', src));
+        return songName;
+    } catch (error) {
+        return null;
+    }
+}
 
 module.exports = {
     findCollageMiniatures,
     findMainImage,
     findImage,
+    findSoundByImageName,
     updateCache,
     findImagesByRow,
     findRoundMiniatures,
+    findMainSound,
 }

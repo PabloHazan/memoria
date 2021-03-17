@@ -18,6 +18,7 @@ const CollageContainer = (props: any) => {
         backgroundImagePath={findImages?.backgroundImage}
         imagesByRow={findImages?.imagesByRow}
         showImage={showImage}
+        sound={findImages?.sound}
     />
 }
 

@@ -7,6 +7,7 @@ interface PhotoResponse {
     round: Array<Image>;
     backgroundImage: string;
     imagesByRow: number;
+    sound: string;
 }
 
 export const useFindImages = (): PhotoResponse | null => {
