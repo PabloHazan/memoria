@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios";
 import { Image } from "../model/image";
+import { addUrl } from "../../../core/statics/staticLoader";
 
 interface PhotoResponse extends Image { }
 
@@ -9,7 +10,11 @@ export const useFetchImage = (name: string, src: string): PhotoResponse | null =
     useEffect(() => {
         axios
             .get<PhotoResponse>(`photos/${name}?src=${src}`)
-            .then(({ data }) => setImage(data));
+            .then(({ data }) => {
+                addUrl(data.url);
+                if (data.sound) addUrl(data.sound);
+                setImage(data)
+            });
     }, [])
     return image;
 }
