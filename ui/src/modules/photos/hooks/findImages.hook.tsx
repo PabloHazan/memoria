@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import axios from "axios";
 import { Image } from "../model/image";
 import { setUrls } from "../../../core/statics/staticLoader";
+import { useDispatch, useSelector } from "react-redux";
+import { selectHome } from "../redux/photos.selector";
+import { setHome } from "../redux/photos.action";
 
-interface PhotoResponse {
+export interface HomeStructure {
     images: Array<Image>;
     round: Array<Image>;
     backgroundImage: string;
@@ -11,20 +14,23 @@ interface PhotoResponse {
     sound: string;
 }
 
-export const useFindImages = (): PhotoResponse | null => {
-    const [images, setImages] = useState<PhotoResponse | null>(null);
+export const useFindImages = (): HomeStructure | null => {
+    const dispatch = useDispatch();
+    const images = useSelector(selectHome);
     useEffect(() => {
-        axios
-            .get<PhotoResponse>('photos')
-            .then(({ data }) => {
-                setUrls([
-                    data.backgroundImage,
-                    data.sound,
-                    ...data.images.map(({ url }) => url),
-                    ...data.round.map(({ url }) => url),
-                ]);
-                setImages(data);
-            });
+        if (!images) {
+            axios
+                .get<HomeStructure>('photos')
+                .then(({ data }) => {
+                    setUrls([
+                        data.backgroundImage,
+                        data.sound,
+                        ...data.images.map(({ url }) => url),
+                        ...data.round.map(({ url }) => url),
+                    ]);
+                    dispatch(setHome(data));
+                });
+        }
     }, [])
     return images;
 }

@@ -11,7 +11,7 @@ const CollageContainer = (props: any) => {
 
     const history = useHistory();
     const showImage = useCallback((src: ImageSrc, path: string) => {
-        history.push(PHOTO_PATH(src, btoa(path)))
+        history.push(PHOTO_PATH(src, btoa(path)));
     }, []);
     return <Collage
         {...props}

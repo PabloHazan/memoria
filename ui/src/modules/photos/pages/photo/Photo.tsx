@@ -1,5 +1,6 @@
-import { Grid } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { Grid, IconButton } from '@material-ui/core';
+import { NavigateBefore, NavigateNext } from '@material-ui/icons';
 import styled from 'styled-components';
 import { useAudio } from '../../hooks/useAudio.hook';
 import { Image } from '../../model/image';
@@ -19,11 +20,15 @@ const P = styled.p`
 `;
 
 interface PhotoProps {
-    image: Image
+    image: Image,
+    next: () => void;
+    back: () => void;
+    clean: () => void;
 }
 
-const Photo = ({ image }: PhotoProps) => {
+const Photo = ({ image, next, back, clean }: PhotoProps) => {
     useAudio(image?.sound);
+    useEffect(() => clean, [])
     return <>
         <Grid
             container
@@ -31,7 +36,30 @@ const Photo = ({ image }: PhotoProps) => {
             alignItems='center'
         >
             <P>{image?.name.match(/^[0-9]+-(.*)\.jpg$/)?.[1] ?? ''}</P>
-            {image?.url && <Img src={image.url} />}
+        </Grid>
+        <Grid item>
+            <Grid
+                item
+                container
+                direction='row'
+                alignItems='center'
+                justify='center'
+                spacing={3}
+            >
+                <Grid item>
+                    <IconButton onClick={back}>
+                        <NavigateBefore />
+                    </IconButton>
+                </Grid>
+                <Grid item>
+                    {image?.url && <Img src={image.url} />}
+                </Grid>
+                <Grid item>
+                    <IconButton onClick={next}>
+                        <NavigateNext />
+                    </IconButton>
+                </Grid>
+            </Grid>
         </Grid>
     </>
 }

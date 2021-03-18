@@ -1,20 +1,25 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import axios from "axios";
 import { Image } from "../model/image";
-import { addUrl } from "../../../core/statics/staticLoader";
+import { setUrls } from "../../../core/statics/staticLoader";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedPhoto } from '../redux/photos.action';
+import { selectCurrentImage } from "../redux/photos.selector";
 
 interface PhotoResponse extends Image { }
 
 export const useFetchImage = (name: string, src: string): PhotoResponse | null => {
-    const [image, setImage] = useState<PhotoResponse | null>(null);
+    const dispatch = useDispatch();
+    const image = useSelector(selectCurrentImage);
     useEffect(() => {
         axios
             .get<PhotoResponse>(`photos/${name}?src=${src}`)
             .then(({ data }) => {
-                addUrl(data.url);
-                if (data.sound) addUrl(data.sound);
-                setImage(data)
+                const urls: Array<string> = new Array<string>(data.url);
+                if (data.sound) urls.push(data.sound);
+                setUrls(urls);
+                dispatch(setSelectedPhoto(data));
             });
-    }, [])
+    }, [name, src]);
     return image;
 }

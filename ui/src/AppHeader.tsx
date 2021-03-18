@@ -19,6 +19,10 @@ const A = styled.a`
     cursor: pointer;
 `
 
+const Img = styled.img`
+    cursor: pointer;
+`
+
 interface AppHeaderProps {
 
 }
@@ -32,13 +36,17 @@ const AppHeader = ({ }: AppHeaderProps) => {
         if (!url) history.goBack();
     }, [url, history]);
 
+    const goHome = useCallback(() => {
+        history.go(-history.length + 1);
+    }, [history])
+
     return <>
         <Div>
             <Grid
                 container
                 justify='space-between'
                 alignItems='center'>
-                <img src='https://homenajealamemoria.files.wordpress.com/2021/03/isologos_180.png' />
+                <Img src='https://homenajealamemoria.files.wordpress.com/2021/03/isologos_180.png' onClick={goHome} />
                 <A
                     href={url}
                     onClick={goBack}
