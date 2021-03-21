@@ -1,23 +1,9 @@
 import React, { useEffect } from 'react';
 import { Grid, IconButton } from '@material-ui/core';
 import { NavigateBefore, NavigateNext } from '@material-ui/icons';
-import styled from 'styled-components';
 import { useAudio } from '../../hooks/useAudio.hook';
 import { Image } from '../../model/image';
-
-const Img = styled.img`
-    max-width: 100vh;
-    max-height: 75vh;
-    height: auto;
-    width: auto;
-`
-
-const P = styled.p`
-    font-size: 18px;
-    line-height: 1.4;
-    color: #d7b221;
-    font-family: "Archivo Narrow","Helvetica Neue",Helvetica,Arial,sans-serif;
-`;
+import { Img, P } from './PhotoStyle';
 
 interface PhotoProps {
     image: Image,
@@ -35,7 +21,7 @@ const Photo = ({ image, next, back, clean }: PhotoProps) => {
             direction='column'
             alignItems='center'
         >
-            <P>{image?.name.match(/^[0-9]+-(.*)\.jpg$/)?.[1] ?? ''}</P>
+            <P>{image?.name.match(/^[A-Z,a-z,0-9]+-(.*)\.jpg$/)?.[1] ?? ''}</P>
         </Grid>
         <Grid item>
             <Grid

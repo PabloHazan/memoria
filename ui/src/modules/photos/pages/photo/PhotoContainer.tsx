@@ -14,6 +14,9 @@ interface PhotoParams {
 }
 
 const PhotoContainer = (props: any) => {
+    const dispatch = useDispatch();
+    const clean = useCallback(() => dispatch(setSelectedPhoto()), [dispatch]);
+
     const { src, name } = useParams<PhotoParams>();
     const history = useHistory();
 
@@ -23,6 +26,7 @@ const PhotoContainer = (props: any) => {
 
     const next = useCallback(() => {
         const index = photos.findIndex((photo) => photo.name === image!.name) + 1;
+        clean();
         const newImage = photos[index === photos.length ? 0 : index];
         const newSrc: ImageSrc = collage.some(photo => photo.name === newImage.name) ?
             ImageSrc.COLLAGE_SRC :
@@ -31,16 +35,13 @@ const PhotoContainer = (props: any) => {
     }, [photos, image]);
     const back = useCallback(() => {
         const index = photos.findIndex((photo) => photo.name === image!.name) - 1;
+        clean();
         const newImage = photos[index === -1 ? photos.length - 1 : index];
         const newSrc: ImageSrc = collage.some(photo => photo.name === newImage.name) ?
             ImageSrc.COLLAGE_SRC :
             ImageSrc.ROUND_SRC;
         history.push(PHOTO_PATH(newSrc, btoa(newImage.name)))
     }, [photos, image]);
-
-    const dispatch = useDispatch();
-    const clean = useCallback(() => dispatch(setSelectedPhoto()), [dispatch]);
-
 
     return <Photo
         {...props}

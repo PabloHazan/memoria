@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid } from "@material-ui/core";
 import styled from 'styled-components';
+import LoadImg from '../../components/LoadImg/LoadImgContainer';
 
 export const GridBackgroundImage = styled(Grid)`
     background-image: url(${({ url }: { url: string | null }) => url});
@@ -10,7 +11,7 @@ export const GridBackgroundImage = styled(Grid)`
     overflow: hidden;
 `;
 
-export const Img = styled.img`
+export const Img = styled(LoadImg)`
     opacity: 0.0;
     transition: transform 0.2s;
     &:hover {
@@ -60,7 +61,7 @@ export const Round = styled(Grid)`
     }
 `
 
-export const ImgRound = styled.img`
+export const ImgRound = styled(LoadImg)`
     transition: transform 0.2s;
     width: 100%;
     max-width: 15vh;

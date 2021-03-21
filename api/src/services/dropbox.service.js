@@ -58,10 +58,15 @@ const mapWithChunks = async (list, maxSize, map) => {
 }
 
 const getFiles = async path => {
-    const { result: { entries } } = await dbx.filesListFolder({
-        path: createPath(path),
-    });
-    return entries;
+    try {
+        const { result: { entries } } = await dbx.filesListFolder({
+            path: createPath(path),
+        });
+        return entries;
+    } catch (error) {
+        console.log(error)
+        throw new Error('Error al explorar el path', path)
+    }
 }
 
 const getImages = async (path = '') => {

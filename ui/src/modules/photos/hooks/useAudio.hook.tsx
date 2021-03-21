@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { loadingOff, loadingOn } from '../../../shared/loader/redux/loaderAction';
 
 interface IUseAudioConfig {
     repeat?: boolean
@@ -10,17 +12,40 @@ const baseConfig: IUseAudioConfig = {
 
 const generateConfig = (config: IUseAudioConfig): IUseAudioConfig => ({ ...baseConfig, ...config });
 
-export const useAudio = (sound: string | undefined, config: IUseAudioConfig = {}) => {
-    config = generateConfig(config)
+interface AudioControl {
+    play: () => void;
+    pause: () => void;
+    toggle: () => void;
+    isPlaying: boolean;
+}
+
+export const useAudio = (sound: string | undefined, config: IUseAudioConfig = {}): AudioControl => {
+    config = generateConfig(config);
+    const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
     const audio = useMemo<HTMLAudioElement | undefined>(() => sound ? new Audio(sound) : undefined, [sound])
-    const play = useCallback(() => audio?.play(), [audio])
+
+    const play = useCallback(() => {
+        if (audio) {
+            audio.play();
+            setIsPlaying(true);
+        }
+    }, [audio]);
+
     const pause = useCallback(() => {
         if (audio) {
             audio.pause();
             audio.currentTime = 0;
+            setIsPlaying(false);
         }
     }, [sound]);
+
+    const toggle = useCallback(() => {
+        if (audio) {
+            if (isPlaying) pause();
+            else play();
+        }
+    }, [audio, isPlaying]);
 
     useEffect(() => {
         if (audio) {
@@ -35,4 +60,18 @@ export const useAudio = (sound: string | undefined, config: IUseAudioConfig = {}
             audio.loop = config.repeat!;
         }
     }, [audio, config.repeat]);
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        if (audio) {
+            dispatch(loadingOn());
+            audio.addEventListener('loadeddata', () => dispatch(loadingOff()), false);
+        }
+    }, [audio]);
+    return {
+        play,
+        pause,
+        toggle,
+        isPlaying,
+    }
 }

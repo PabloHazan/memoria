@@ -1,25 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './axiosConfig';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
 import { routes } from './App.routes';
 import { Container, Grid } from '@material-ui/core';
 import AppHeader from './AppHeader';
 import styled from 'styled-components';
-import { dispatch, store } from './core/redux/store';
+import { store } from './core/redux/store';
 import { Provider } from 'react-redux';
 import Spinner from './shared/loader/components/spinnerContainer';
-import { loadingOff, loadingOn } from './shared/loader/redux/loaderAction';
-import { configStaticsLoading } from './core/statics/staticLoader';
 
 const Body = () => {
-  useEffect(() => {
-    dispatch(loadingOn());
-    configStaticsLoading(() => {
-      dispatch(loadingOff());
-    }, () => {
-      dispatch(loadingOff());
-    })
-  }, []);
   return <Grid
     container
     direction='column'

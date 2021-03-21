@@ -8,6 +8,7 @@ interface ISpinnerProps {
 
 const StyledBackdrop = styled(Backdrop)`
     color: '#fff';
+    z-index: 10 !important;
 `
 
 export const Spinner = ({ loading }: ISpinnerProps) => (

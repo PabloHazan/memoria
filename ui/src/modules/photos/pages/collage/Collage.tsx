@@ -4,7 +4,7 @@ import { Image } from '../../model/image';
 import { ImageSrc } from '../../model/imageSrc';
 import { Grid, IconButton } from '@material-ui/core';
 import { useAudio } from '../../hooks/useAudio.hook';
-import { PhotoSizeSelectLarge, PhotoSizeSelectSmall, ZoomIn, ZoomOut } from '@material-ui/icons';
+import { Pause, PlayArrow, ZoomIn, ZoomOut } from '@material-ui/icons';
 
 interface CollageProps {
     images: Array<Image> | null;
@@ -16,9 +16,10 @@ interface CollageProps {
 }
 
 const Collage = ({ images, backgroundImagePath, showImage, imagesByRow, roundImages, sound }: CollageProps) => {
-    useAudio(sound, { repeat: true });
+    const { toggle, isPlaying } = useAudio(sound, { repeat: true });
     const [maximize, setMaximize] = useState(false);
-    const Icon = maximize ? ZoomOut : ZoomIn;
+    const ZoomIcon = maximize ? ZoomOut : ZoomIn;
+    const PlayingIcon = isPlaying ? Pause : PlayArrow;
     return <>
         <Grid
             container
@@ -61,8 +62,11 @@ const Collage = ({ images, backgroundImagePath, showImage, imagesByRow, roundIma
                         container
                         justify='flex-end'
                     >
+                        <IconButton onClick={toggle}>
+                            <PlayingIcon />
+                        </IconButton>
                         <IconButton onClick={() => setMaximize(!maximize)}>
-                            <Icon />
+                            <ZoomIcon />
                         </IconButton>
 
                     </Grid>
@@ -72,7 +76,7 @@ const Collage = ({ images, backgroundImagePath, showImage, imagesByRow, roundIma
                         <H2>ACTIVIDAD 2021</H2>
                         <div><p>
                             Compartimos el Collage del Pañuelo. Este año nuestro Homenaje a la Memoria es desde casa. Las fotos que lo integran fueron enviadas a nuestro contacto. Es nuestro homenaje a ellas y a sus hijos. A ellas que, como dijera Galeano, se negaron a olvidar aún en tiempos de amnesia obligatoria. Si los delitos de lesa humanidad no prescriben, la resistencia tampoco.
-                </p></div>
+                        </p></div>
                     </Section>
                 </Grid>
             </Grid>
