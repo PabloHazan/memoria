@@ -12,18 +12,19 @@ const baseConfig: IUseAudioConfig = {
 
 const generateConfig = (config: IUseAudioConfig): IUseAudioConfig => ({ ...baseConfig, ...config });
 
-interface AudioControl {
+export interface AudioControl {
     play: () => void;
     pause: () => void;
     toggle: () => void;
     isPlaying: boolean;
+    setVolume: (volume: number) => void;
 }
 
 export const useAudio = (sound: string | undefined, config: IUseAudioConfig = {}): AudioControl => {
     config = generateConfig(config);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
-    const audio = useMemo<HTMLAudioElement | undefined>(() => sound ? new Audio(sound) : undefined, [sound])
+    const audio = useMemo<HTMLAudioElement | undefined>(() => sound ? new Audio(sound) : undefined, [sound]);
 
     const play = useCallback(() => {
         if (audio) {
@@ -47,9 +48,12 @@ export const useAudio = (sound: string | undefined, config: IUseAudioConfig = {}
         }
     }, [audio, isPlaying]);
 
+    const setVolume = useCallback((volume: number) => {
+        if (audio) audio.volume = volume;
+    }, [audio]);
+
     useEffect(() => {
         if (audio) {
-            audio.preload = 'all';
             play();
             return pause;
         }
@@ -73,5 +77,6 @@ export const useAudio = (sound: string | undefined, config: IUseAudioConfig = {}
         pause,
         toggle,
         isPlaying,
+        setVolume,
     }
 }

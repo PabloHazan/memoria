@@ -1,11 +1,11 @@
 import { createReducer } from "../../../core/redux/creators";
-import { HomeStructure } from "../hooks/findImages.hook";
+import { Config } from "../hooks/findConfig.hook";
 import { Image } from "../model/image";
 import { PhotoAction } from "./photos.action";
 
 export interface PhotoReducer {
     selected: Image | null;
-    home: HomeStructure | null;
+    home: Config | null;
 }
 
 const initialState: PhotoReducer = {

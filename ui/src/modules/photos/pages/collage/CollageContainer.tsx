@@ -1,13 +1,13 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useFindImages } from '../../hooks/findImages.hook';
+import { useFindConfig } from '../../hooks/findConfig.hook';
 import Collage from './Collage';
 import { PHOTO_PATH } from '../../../../App.routes';
 import { ImageSrc } from '../../model/imageSrc';
 
 
-const CollageContainer = (props: any) => {
-    const findImages = useFindImages();
+const CollageContainer = ({ props }: any) => {
+    const config = useFindConfig();
 
     const history = useHistory();
     const showImage = useCallback((src: ImageSrc, path: string) => {
@@ -15,12 +15,12 @@ const CollageContainer = (props: any) => {
     }, []);
     return <Collage
         {...props}
-        images={findImages?.images}
-        roundImages={findImages?.round}
-        backgroundImagePath={findImages?.backgroundImage}
-        imagesByRow={findImages?.imagesByRow}
+        images={config?.images}
+        roundImages={config?.round}
+        backgroundImagePath={config?.backgroundImage}
+        imagesByRow={config?.imagesByRow}
         showImage={showImage}
-        sound={findImages?.sound}
+        sound={config?.sound}
     />
 }
 

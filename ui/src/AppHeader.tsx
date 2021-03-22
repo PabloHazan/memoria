@@ -37,7 +37,7 @@ const AppHeader = ({ }: AppHeaderProps) => {
     }, [url, history]);
 
     const goHome = useCallback(() => {
-        history.go(-history.length + 1);
+        history.push(COLLAGE_PATH);
     }, [history])
 
     return <>

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectHome } from "../redux/photos.selector";
 import { setHome } from "../redux/photos.action";
 
-export interface HomeStructure {
+export interface Config {
     images: Array<Image>;
     round: Array<Image>;
     backgroundImage: string;
@@ -13,17 +13,17 @@ export interface HomeStructure {
     sound: string;
 }
 
-export const useFindImages = (): HomeStructure | null => {
+export const useFindConfig = (): Config | null => {
     const dispatch = useDispatch();
-    const images = useSelector(selectHome);
+    const home = useSelector(selectHome);
     useEffect(() => {
-        if (!images) {
+        if (!home) {
             axios
-                .get<HomeStructure>('photos')
+                .get<Config>('photos')
                 .then(({ data }) => {
                     dispatch(setHome(data));
                 });
         }
     }, [])
-    return images;
+    return home;
 }

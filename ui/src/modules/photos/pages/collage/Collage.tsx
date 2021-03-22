@@ -3,8 +3,8 @@ import { GridBackgroundImage, Img, Round, ImgRound, Section, H2 } from './Collag
 import { Image } from '../../model/image';
 import { ImageSrc } from '../../model/imageSrc';
 import { Grid, IconButton } from '@material-ui/core';
-import { useAudio } from '../../hooks/useAudio.hook';
 import { Pause, PlayArrow, ZoomIn, ZoomOut } from '@material-ui/icons';
+import { useGlobalAudio } from '../../../../AppContext';
 
 interface CollageProps {
     images: Array<Image> | null;
@@ -12,11 +12,10 @@ interface CollageProps {
     backgroundImagePath: string | null;
     showImage: (src: ImageSrc, path: string) => void;
     imagesByRow: number;
-    sound: string;
 }
 
-const Collage = ({ images, backgroundImagePath, showImage, imagesByRow, roundImages, sound }: CollageProps) => {
-    const { toggle, isPlaying } = useAudio(sound, { repeat: true });
+const Collage = ({ images, backgroundImagePath, showImage, imagesByRow, roundImages }: CollageProps) => {
+    const { isPlaying, toggle } = useGlobalAudio();
     const [maximize, setMaximize] = useState(false);
     const ZoomIcon = maximize ? ZoomOut : ZoomIn;
     const PlayingIcon = isPlaying ? Pause : PlayArrow;
@@ -73,9 +72,9 @@ const Collage = ({ images, backgroundImagePath, showImage, imagesByRow, roundIma
                 </Grid>
                 <Grid item xs>
                     <Section>
-                        <H2>ACTIVIDAD 2021</H2>
+                        <H2>Homenaje 2021</H2>
                         <div><p>
-                            Compartimos el Collage del Pañuelo. Este año nuestro Homenaje a la Memoria es desde casa. Las fotos que lo integran fueron enviadas a nuestro contacto. Es nuestro homenaje a ellas y a sus hijos. A ellas que, como dijera Galeano, se negaron a olvidar aún en tiempos de amnesia obligatoria. Si los delitos de lesa humanidad no prescriben, la resistencia tampoco.
+                            Pasando el mouse sobre cualquier parte de las imágenes podrás ver el detalle de cada fotografía enviada y haciendo click acceder a la misma.
                         </p></div>
                     </Section>
                 </Grid>

@@ -4,6 +4,7 @@ import { NavigateBefore, NavigateNext } from '@material-ui/icons';
 import { useAudio } from '../../hooks/useAudio.hook';
 import { Image } from '../../model/image';
 import { Img, P } from './PhotoStyle';
+import { useGlobalAudio } from '../../../../AppContext';
 
 interface PhotoProps {
     image: Image,
@@ -13,7 +14,16 @@ interface PhotoProps {
 }
 
 const Photo = ({ image, next, back, clean }: PhotoProps) => {
-    useAudio(image?.sound);
+    const { setVolume } = useGlobalAudio();
+
+    const { isPlaying } = useAudio(image?.sound);
+    useEffect(() => {
+        if (isPlaying) {
+            setVolume(0.5);
+            return () => setVolume(1);
+        }
+    }, [isPlaying])
+
     useEffect(() => clean, [])
     return <>
         <Grid
