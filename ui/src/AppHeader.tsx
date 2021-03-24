@@ -30,10 +30,10 @@ interface AppHeaderProps {
 const AppHeader = ({ }: AppHeaderProps) => {
     const location = useLocation();
     const history = useHistory();
-    const url = useMemo(() => location.pathname === COLLAGE_PATH ? "https://homenajealamemoria.wordpress.com/" : COLLAGE_PATH, [location.pathname]);
+    const url = useMemo(() => location.pathname === COLLAGE_PATH ? "https://homenajealamemoria.wordpress.com/" : undefined, [location.pathname]);
 
     const goHome = useCallback(() => {
-        history.push(COLLAGE_PATH);
+        setTimeout(() => history.push(COLLAGE_PATH), 100);
     }, [history])
 
     return <>
@@ -43,7 +43,7 @@ const AppHeader = ({ }: AppHeaderProps) => {
                 justify='space-between'
                 alignItems='center'>
                 <Img src='https://homenajealamemoria.files.wordpress.com/2021/03/isologos_180.png' onClick={goHome} />
-                <A href={url}>
+                <A href={url} onClick={goHome}>
                     Volver
                 </A>
             </Grid>
