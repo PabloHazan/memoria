@@ -33,7 +33,7 @@ const AppHeader = ({ }: AppHeaderProps) => {
     const url = useMemo(() => location.pathname === COLLAGE_PATH ? "https://homenajealamemoria.wordpress.com/" : undefined, [location.pathname]);
 
     const goHome = useCallback(() => {
-        setTimeout(() => history.push(COLLAGE_PATH), 100);
+        setTimeout(() => history.push(COLLAGE_PATH), 99);
     }, [history])
 
     return <>
