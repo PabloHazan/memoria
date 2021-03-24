@@ -4,7 +4,7 @@ const Cacheable = require('../framework/cache/cache');
 const { DROPBOX_CACHE_KEY, DROPBOX_CONFIG_FILE, DROPBOX_FILE_BASE_URL } = require('../constants');
 const CacheDropbox = Cacheable(DROPBOX_CACHE_KEY, { ttl: Cacheable.INFINITY })
 
-const accessToken = 'y6dNTYPYn0sAAAAAAAAAAQ8fSh2dhOzZB_znE8x-aRumBVs2Aoe1UVpLgZYT6reQ';
+const accessToken = 'hfkEjlS76UMAAAAAAAAAAdt5EjPvG7xd5WHYfNRBLoz0ADZAFmnzVGPxSfbQga-H';
 const dbx = new Dropbox({
     accessToken,
     fetch
