@@ -16,7 +16,7 @@ const SONGS_URL = BASE_IMAGE_URL + 'Palabras/'
 const MAIN_IMAGE_URL = BASE_IMAGE_URL + 'mosaico.jpg';
 const MAIN_SOUND_URL = BASE_IMAGE_URL + 'musica.mp3';
 
-const IMAGES_PATH = './ui/static/images/';
+const IMAGES_PATH = './api/ui/static/images/';
 const MINIATURES_PATH = MINIATURE_FOLDER(IMAGES_PATH);
 const MINIATURES_ROUND_PATH = MINIATURE_ROUND_FOLDER(IMAGES_PATH);
 const SONGS_PATH = IMAGES_PATH + 'Palabras/'
