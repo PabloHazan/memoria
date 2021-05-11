@@ -1,17 +1,32 @@
-const {
-    getDriveFilesFromFolder,
-    getDriveFile,
-    reloadDriveConfig,
-    getDriveConfig,
-} = require('./drive.service');
+const fs = require('fs');
 
-const Cacheable = require('../framework/cache/cache');
+const MINIATURE_FOLDER = base => base + 'Small/';
+const BIG_FOLDER = base => base + 'Big/';
+const BIG_ROUND_FOLDER = base => base + 'Big Round/';
+const MINIATURE_ROUND_FOLDER = base => base + 'Small Round/';
+
+
+const BASE_IMAGE_URL = '/static/images/';
+const MINIATURES_URL = MINIATURE_FOLDER(BASE_IMAGE_URL);
+const MINIATURES_ROUND_URL = MINIATURE_ROUND_FOLDER(BASE_IMAGE_URL);
+const BIG_URL = BIG_FOLDER(BASE_IMAGE_URL);
+const BIG_ROUND_URL = BIG_ROUND_FOLDER(BASE_IMAGE_URL);
+const SONGS_URL = BASE_IMAGE_URL + 'Palabras/'
+
+const MAIN_IMAGE_URL = BASE_IMAGE_URL + 'mosaico.jpg';
+const MAIN_SOUND_URL = BASE_IMAGE_URL + 'musica.mp3';
+
+const IMAGES_PATH = './ui/static/images/';
+const MINIATURES_PATH = MINIATURE_FOLDER(IMAGES_PATH);
+const MINIATURES_ROUND_PATH = MINIATURE_ROUND_FOLDER(IMAGES_PATH);
+const SONGS_PATH = IMAGES_PATH + 'Palabras/'
+
+
 const {
-    DROPBOX_CACHE_KEY,
     ROUND_SRC,
-    COLLAGE_SRC,
     VALID_SRCS,
 } = require('../constants');
+
 
 const validateSrc = src => {
     if (!VALID_SRCS.includes(src))
@@ -20,61 +35,33 @@ const validateSrc = src => {
 
 const createImagePath = (imageName, src) => {
     validateSrc(src);
-    const basePath = getDriveConfig()[src].maxi;
-    return `${basePath}/${imageName}`;
+    const baseUrl = src === ROUND_SRC ? BIG_ROUND_URL : BIG_URL;
+    return `${baseUrl}/${imageName}`;
 }
 
-const createSoundPath = (soudName, src) => {
-    validateSrc(src);
-    const basePath = getDriveConfig()[src].audio;
-    return `${basePath}/${soudName}`;
-}
+const createSoundPath = soudName => fs.existsSync(SONGS_PATH + soudName) ? `${SONGS_URL}/${soudName}` : null;
 
-const loadImages = async src => {
-    validateSrc(src);
-    const images = await getDriveFilesFromFolder(getDriveConfig()[src].maxi);
-    const soundPath = getDriveConfig()[src].audio;
-    await Promise.all(images.map(image => getDriveFile(soundPath + '/' + image.name.replace('.jpg', '.mp3'))));
-}
 
-const loadCollageImages = async () => await loadImages(COLLAGE_SRC);
-const loadRoundImages = async () => await loadImages(ROUND_SRC);
+const findMiniaturesAndCreatePath = (BASE_PATH, BASE_URL) => fs.readdirSync(BASE_PATH).map(name => ({
+    url: `${BASE_URL}${name}`,
+    name
+}))
 
-const findMiniatures = async src => {
-    validateSrc(src);
-    return getDriveFilesFromFolder(getDriveConfig()[src].mini);
-}
+const findCollageMiniatures = () => findMiniaturesAndCreatePath(MINIATURES_PATH, MINIATURES_URL);
 
-const findCollageMiniatures = async () => await findMiniatures(COLLAGE_SRC);
-const findRoundMiniatures = async () => await findMiniatures(ROUND_SRC);
+const findRoundMiniatures = () => findMiniaturesAndCreatePath(MINIATURES_ROUND_PATH, MINIATURES_ROUND_URL)
 
-const findMainImage = async () => await getDriveFile(getDriveConfig().fondo);
+const findMainImage = () => MAIN_IMAGE_URL;
 
-const findImage = async (imageName, src) => await getDriveFile(createImagePath(imageName, src));
+const findImage = (imageName, src) => createImagePath(imageName, src);
 
-const updateCache = async () => {
-    Cacheable.clearBucket(DROPBOX_CACHE_KEY);
-    await reloadDriveConfig();
-    await findCollageMiniatures();
-    await findMainImage();
-    await findRoundMiniatures();
-    await loadCollageImages();
-    await loadRoundImages();
-    await findMainSound()
-    console.log(JSON.stringify(getDriveConfig(), null, 2));
-}
+const findImagesByRow = () => 20;
 
-const findImagesByRow = () => getDriveConfig().columnas;
+const findMainSound = () => MAIN_SOUND_URL;
 
-const findMainSound = () => getDriveFile(getDriveConfig().audio);
-
-const findSoundByImageName = async (imageName, src) => {
-    try {
-        const songName = await getDriveFile(createSoundPath(imageName.match(/^(.*)\.jpg$/)[1] + '.mp3', src));
-        return songName;
-    } catch (error) {
-        return null;
-    }
+const findSoundByImageName = (imageName) => {
+    const soundName = imageName.match(/^(.*)\.jpg$/)[1] + '.mp3';
+    return createSoundPath(soundName);
 }
 
 module.exports = {
@@ -82,7 +69,6 @@ module.exports = {
     findMainImage,
     findImage,
     findSoundByImageName,
-    updateCache,
     findImagesByRow,
     findRoundMiniatures,
     findMainSound,

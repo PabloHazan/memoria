@@ -3,18 +3,17 @@ const {
     findMainImage,
     findImage,
     findSoundByImageName,
-    updateCache,
     findImagesByRow,
     findRoundMiniatures,
     findMainSound,
 } = require("../services/photos.service")
 
-const getPhotos = async (req, res) => {
-    const images = await findCollageMiniatures();
-    const backgroundImage = await findMainImage();
-    const imagesByRow = await findImagesByRow();
-    const round = await findRoundMiniatures();
-    const sound = await findMainSound();
+const getPhotos = (req, res) => {
+    const images = findCollageMiniatures();
+    const backgroundImage = findMainImage();
+    const imagesByRow = findImagesByRow();
+    const round = findRoundMiniatures();
+    const sound = findMainSound();
     res.send({
         images,
         backgroundImage,
@@ -24,11 +23,11 @@ const getPhotos = async (req, res) => {
     })
 }
 
-const getPhoto = async (req, res) => {
+const getPhoto = (req, res) => {
     const { name } = req.params;
     const { src } = req.query
-    const image = await findImage(name, src);
-    const sound = await findSoundByImageName(name, src);
+    const image = findImage(name, src);
+    const sound = findSoundByImageName(name);
     res.send({
         name,
         url: image,
@@ -36,13 +35,7 @@ const getPhoto = async (req, res) => {
     })
 }
 
-const reload = async (req, res) => {
-    await updateCache();
-    res.send({ status: 'reloaded' })
-}
-
 module.exports = {
     getPhotos,
     getPhoto,
-    reload,
 }
