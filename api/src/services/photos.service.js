@@ -1,9 +1,10 @@
 const {
-    getDropboxImages,
-    getDropboxFile,
-    reloadDropboxConfig,
-    getDropboxConfig
-} = require('./dropbox.service');
+    getDriveFilesFromFolder,
+    getDriveFile,
+    reloadDriveConfig,
+    getDriveConfig,
+} = require('./drive.service');
+
 const Cacheable = require('../framework/cache/cache');
 const {
     DROPBOX_CACHE_KEY,
@@ -19,21 +20,21 @@ const validateSrc = src => {
 
 const createImagePath = (imageName, src) => {
     validateSrc(src);
-    const basePath = getDropboxConfig()[src].maxi;
+    const basePath = getDriveConfig()[src].maxi;
     return `${basePath}/${imageName}`;
 }
 
 const createSoundPath = (soudName, src) => {
     validateSrc(src);
-    const basePath = getDropboxConfig()[src].audio;
+    const basePath = getDriveConfig()[src].audio;
     return `${basePath}/${soudName}`;
 }
 
 const loadImages = async src => {
     validateSrc(src);
-    const images = await getDropboxImages(getDropboxConfig()[src].maxi);
-    const soundPath = getDropboxConfig()[src].audio;
-    await Promise.all(images.map(image => getDropboxFile(soundPath + '/' + image.name.replace('.jpg', '.mp3'))));
+    const images = await getDriveFilesFromFolder(getDriveConfig()[src].maxi);
+    const soundPath = getDriveConfig()[src].audio;
+    await Promise.all(images.map(image => getDriveFile(soundPath + '/' + image.name.replace('.jpg', '.mp3'))));
 }
 
 const loadCollageImages = async () => await loadImages(COLLAGE_SRC);
@@ -41,35 +42,35 @@ const loadRoundImages = async () => await loadImages(ROUND_SRC);
 
 const findMiniatures = async src => {
     validateSrc(src);
-    return getDropboxImages(getDropboxConfig()[src].mini);
+    return getDriveFilesFromFolder(getDriveConfig()[src].mini);
 }
 
 const findCollageMiniatures = async () => await findMiniatures(COLLAGE_SRC);
 const findRoundMiniatures = async () => await findMiniatures(ROUND_SRC);
 
-const findMainImage = async () => await getDropboxFile(getDropboxConfig().fondo);
+const findMainImage = async () => await getDriveFile(getDriveConfig().fondo);
 
-const findImage = async (imageName, src) => await getDropboxFile(createImagePath(imageName, src));
+const findImage = async (imageName, src) => await getDriveFile(createImagePath(imageName, src));
 
 const updateCache = async () => {
     Cacheable.clearBucket(DROPBOX_CACHE_KEY);
-    await reloadDropboxConfig();
+    await reloadDriveConfig();
     await findCollageMiniatures();
     await findMainImage();
     await findRoundMiniatures();
     await loadCollageImages();
     await loadRoundImages();
     await findMainSound()
-    console.log(JSON.stringify(getDropboxConfig(), null, 2));
+    console.log(JSON.stringify(getDriveConfig(), null, 2));
 }
 
-const findImagesByRow = () => getDropboxConfig().columnas;
+const findImagesByRow = () => getDriveConfig().columnas;
 
-const findMainSound = () => getDropboxFile(getDropboxConfig().audio);
+const findMainSound = () => getDriveFile(getDriveConfig().audio);
 
 const findSoundByImageName = async (imageName, src) => {
     try {
-        const songName = await getDropboxFile(createSoundPath(imageName.match(/^(.*)\.jpg$/)[1] + '.mp3', src));
+        const songName = await getDriveFile(createSoundPath(imageName.match(/^(.*)\.jpg$/)[1] + '.mp3', src));
         return songName;
     } catch (error) {
         return null;

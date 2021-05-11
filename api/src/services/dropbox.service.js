@@ -1,7 +1,7 @@
 const { Dropbox } = require('dropbox');
 const fetch = require('node-fetch');
 const Cacheable = require('../framework/cache/cache');
-const { DROPBOX_CACHE_KEY, DROPBOX_CONFIG_FILE, DROPBOX_FILE_BASE_URL } = require('../constants');
+const { DROPBOX_CACHE_KEY, CONFIG_FILE_NAME, DROPBOX_FILE_BASE_URL } = require('../constants');
 const CacheDropbox = Cacheable(DROPBOX_CACHE_KEY, { ttl: Cacheable.INFINITY })
 
 const accessToken = 'hfkEjlS76UMAAAAAAAAAAdt5EjPvG7xd5WHYfNRBLoz0ADZAFmnzVGPxSfbQga-H';
@@ -85,7 +85,7 @@ const readFile = async name => {
 
 const reloadConfig = async () => {
     try {
-        setConfig(await readFile(DROPBOX_CONFIG_FILE));
+        setConfig(await readFile(CONFIG_FILE_NAME));
     } catch (error) {
         console.error('Error: no pudo leerse el archivo de configuracion de dropbox', error);
         console.error(error);
