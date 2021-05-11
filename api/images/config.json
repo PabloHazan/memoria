@@ -1,0 +1,18 @@
+{
+  "base": "/Paul2",
+  "fondo": "mosaico.jpg",
+  "audio": "musica.mp3",
+  "collage": {
+    "mini": "/Small",
+    "maxi": "Big",
+    "audio": "Palabras"
+  },
+  "ronda": {
+    "mini": "/Small Round",
+    "maxi": "Big Round",
+    "audio": "Palabras"
+  },
+  "columnas": 20,
+  "title": "Homenaje 2021",
+  "text": "Pasando el mouse sobre cualquier parte de las im�genes podr�s ver el detalle de cada fotograf�a enviada y haciendo click acceder a la misma."
+}
