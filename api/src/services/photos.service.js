@@ -55,7 +55,7 @@ const findMainImage = () => MAIN_IMAGE_URL;
 
 const findImage = (imageName, src) => createImagePath(imageName, src);
 
-const findImagesByRow = () => 20;
+const findImagesByRow = () => 14;
 
 const findMainSound = () => MAIN_SOUND_URL;
 

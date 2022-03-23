@@ -2,8 +2,8 @@ import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { dispatch } from './core/redux/store';
 import { loadingOff, loadingOn } from './shared/loader/redux/loaderAction';
 
-Axios.defaults.baseURL = '/api/';
-// Axios.defaults.baseURL = 'http://localhost:8080/api/';
+// Axios.defaults.baseURL = '/api/';
+Axios.defaults.baseURL = 'http://localhost:8080/api/';
 
 
 const requestHandler = async (request: AxiosRequestConfig) => {
