@@ -49,7 +49,7 @@ const findMiniaturesAndCreatePath = (BASE_PATH, BASE_URL) => fs.readdirSync(BASE
 
 const findCollageMiniatures = () => findMiniaturesAndCreatePath(MINIATURES_PATH, MINIATURES_URL);
 
-const findRoundMiniatures = () => findMiniaturesAndCreatePath(MINIATURES_ROUND_PATH, MINIATURES_ROUND_URL)
+const findRoundMiniatures = () => []; //findMiniaturesAndCreatePath(MINIATURES_ROUND_PATH, MINIATURES_ROUND_URL)
 
 const findMainImage = () => MAIN_IMAGE_URL;
 
