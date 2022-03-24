@@ -72,13 +72,13 @@ const Collage = ({ images, backgroundImagePath, showImage, imagesByRow, roundIma
                 </Grid>
                 <Grid item xs>
                     <Section>
-                        <H2>Homenaje 2021</H2>
+                        <H2>Homenaje 2022</H2>
                         <div>
                             <p>
                                 Pasando el mouse sobre cualquier parte de las imágenes podrás ver el detalle de cada fotografía enviada y haciendo click acceder a la misma.
                             </p>
                             <p>
-                                Como todos los años contamos con el apoyo de las Madres y de otros Organismos de Derechos Humanos… No te pierdas encontrar sus fotos, una de ellas tiene el mensaje inolvidable que nos une todos los 24 de marzo.
+                                Como todos los años contamos con el apoyo de las Madres y de otros Organismos de Derechos Humanos… No te pierdas encontrarte a vos, a tus amigues y a mucha gente conocida y querida.
                             </p>
                         </div>
                     </Section>
