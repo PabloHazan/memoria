@@ -42,7 +42,7 @@ const AppHeader = ({ }: AppHeaderProps) => {
                 container
                 justify='space-between'
                 alignItems='center'>
-                <Img src='https://homenajealamemoria.files.wordpress.com/2021/03/isologos_180.png' onClick={goHome} />
+                <Img src='https://homenajealamemoria.files.wordpress.com/2022/02/pines_18al22.png' onClick={goHome} />
                 <A href={url} onClick={goHome}>
                     Volver
                 </A>
